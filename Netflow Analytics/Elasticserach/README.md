@@ -1,4 +1,5 @@
 # Elasticsearch-Logstash-Kibana (ELK)
+![Kibana Dashboard: Cyber Situational Awareness](elasticsearch/Dashboard.png)
 ## ELK Stream for realtime Visual Analytics
 Netflow is pushed to Logstash and decoded by the netflow filter codec. GeoIP lookup is performed in stream using the geoip filter which references a [MaxMind Datbase](http://dev.maxmind.com/geoip/legacy/geolite/).
 
