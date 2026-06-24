@@ -16,11 +16,12 @@ const TABS = [
   { id:'markets', label:'Markets'    },
 ];
 
-// Tailscale network — devices seen in the network (update path once RADIANT airball endpoint is known)
+// Tailscale network devices. When browsing the hosted app on rogtowerdb itself,
+// use the /api/ proxy path instead of a full URL (nginx routes /api/ → host:8080).
 const TAILSCALE_HOSTS = [
-  { name:'rogtowerdb',   ip:'100.115.169.40', defaultPort:8080, path:'/wc2026.json', online:true  },
-  { name:'spark-574e',   ip:'100.127.73.22',  defaultPort:8080, path:'/wc2026.json', online:true  },
-  { name:'pixel-10-pro-xl', ip:'100.123.76.21', defaultPort:8080, path:'/wc2026.json', online:true },
+  { name:'rogtowerdb',      ip:'100.115.169.40', defaultPort:5173, path:'/api/wc2026.json', online:true  },
+  { name:'spark-574e',      ip:'100.127.73.22',  defaultPort:8080, path:'/wc2026.json',     online:true  },
+  { name:'pixel-10-pro-xl', ip:'100.123.76.21',  defaultPort:8080, path:'/wc2026.json',     online:true  },
 ];
 
 export default function App() {

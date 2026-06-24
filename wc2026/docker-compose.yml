@@ -1,0 +1,21 @@
+services:
+  wc2026:
+    build: .
+    container_name: wc2026
+    restart: unless-stopped
+    ports:
+      - "5173:80"       # http://100.115.169.40:5173 over Tailscale
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # lets nginx /api/ reach host port 8080
+
+  # Uncomment once RADIANT airball data server is wired up:
+  # airball-data:
+  #   image: python:3.12-slim
+  #   container_name: airball-data
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - ./server:/app
+  #   working_dir: /app
+  #   command: python serve.py
