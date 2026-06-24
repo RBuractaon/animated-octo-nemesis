@@ -28,42 +28,54 @@ export const FIFA_RANK = {
 };
 
 // Annex C: group winner → 3rd-place pool + match details
+// Match numbers and venues confirmed from CBS Sports bracket (Jun 24 2026)
 export const WINNER_SLOTS = {
-  A: { pool:["C","E","F","H","I"], match:79, matchIdx:6,  date:"Jun 30", venue:"Mexico City" },
-  B: { pool:["E","F","G","I","J"], match:85, matchIdx:12, date:"Jul 2",  venue:"Vancouver"   },
-  D: { pool:["B","E","F","I","J"], match:81, matchIdx:8,  date:"Jul 1",  venue:"Santa Clara"  },
-  E: { pool:["A","B","C","D","F"], match:74, matchIdx:1,  date:"Jun 29", venue:"Boston"       },
-  G: { pool:["A","E","H","I","J"], match:82, matchIdx:9,  date:"Jul 1",  venue:"Seattle"      },
-  I: { pool:["C","D","F","G","H"], match:77, matchIdx:4,  date:"Jun 30", venue:"New Jersey"   },
-  K: { pool:["D","E","I","J","L"], match:87, matchIdx:14, date:"Jul 3",  venue:"Kansas City"  },
-  L: { pool:["E","H","I","J","K"], match:80, matchIdx:7,  date:"Jul 1",  venue:"Atlanta"      },
+  A: { pool:["C","E","F","H","I"], match:79, matchIdx:6,  date:"Jun 30", venue:"Mexico City"     }, // vs C3 Scotland
+  B: { pool:["E","F","G","I","J"], match:84, matchIdx:11, date:"Jul 2",  venue:"Vancouver"        }, // vs G3 Belgium
+  D: { pool:["B","E","F","I","J"], match:82, matchIdx:9,  date:"Jul 1",  venue:"Santa Clara"      }, // vs B3 Bosnia
+  E: { pool:["A","B","C","D","F"], match:75, matchIdx:2,  date:"Jun 29", venue:"Foxborough"       }, // vs D3 Paraguay
+  G: { pool:["A","E","H","I","J"], match:81, matchIdx:8,  date:"Jul 1",  venue:"Seattle"          }, // vs A3 Czechia
+  I: { pool:["C","D","F","G","H"], match:78, matchIdx:5,  date:"Jun 30", venue:"East Rutherford"  }, // vs F3 Sweden
+  K: { pool:["D","E","I","J","L"], match:88, matchIdx:15, date:"Jul 3",  venue:"Kansas City"      }, // vs L3 Croatia
+  L: { pool:["E","H","I","J","K"], match:80, matchIdx:7,  date:"Jul 1",  venue:"Atlanta"          }, // vs H3 Cabo Verde
 };
 
-// All 16 R32 matches in order (M73–M88); matchIdx = 0-based index into this array
+// All 16 R32 matches (M73–M88) — CBS Sports confirmed bracket Jun 24 2026
+// matchIdx = 0-based index (M73=0, M74=1, ... M88=15)
 export const R32_MATCHES = [
-  { id:"M73", n:73, type:"bracket", date:"Jun 28", winnerGroup:"C",  note:"C1 vs runner-up"  },
-  { id:"M74", n:74, type:"annex-c", date:"Jun 29", winnerGroup:"E",  pool:["A","B","C","D","F"], venue:"Boston"       },
-  { id:"M75", n:75, type:"bracket", date:"Jun 29", winnerGroup:"F",  note:"F1 vs runner-up"  },
-  { id:"M76", n:76, type:"bracket", date:"Jun 29", winnerGroup:"H",  note:"H1 vs runner-up"  },
-  { id:"M77", n:77, type:"annex-c", date:"Jun 30", winnerGroup:"I",  pool:["C","D","F","G","H"], venue:"New Jersey"   },
-  { id:"M78", n:78, type:"bracket", date:"Jun 30", winnerGroup:"J",  note:"J1 vs runner-up"  },
-  { id:"M79", n:79, type:"annex-c", date:"Jun 30", winnerGroup:"A",  pool:["C","E","F","H","I"], venue:"Mexico City"  },
-  { id:"M80", n:80, type:"annex-c", date:"Jul 1",  winnerGroup:"L",  pool:["E","H","I","J","K"], venue:"Atlanta"      },
-  { id:"M81", n:81, type:"annex-c", date:"Jul 1",  winnerGroup:"D",  pool:["B","E","F","I","J"], venue:"Santa Clara"  },
-  { id:"M82", n:82, type:"annex-c", date:"Jul 1",  winnerGroup:"G",  pool:["A","E","H","I","J"], venue:"Seattle"      },
-  { id:"M83", n:83, type:"runner",  date:"Jul 2",  note:"2nd vs 2nd" },
-  { id:"M84", n:84, type:"runner",  date:"Jul 2",  note:"2nd vs 2nd" },
-  { id:"M85", n:85, type:"annex-c", date:"Jul 2",  winnerGroup:"B",  pool:["E","F","G","I","J"], venue:"Vancouver"    },
-  { id:"M86", n:86, type:"runner",  date:"Jul 3",  note:"2nd vs 2nd" },
-  { id:"M87", n:87, type:"annex-c", date:"Jul 3",  winnerGroup:"K",  pool:["D","E","I","J","L"], venue:"Kansas City"  },
-  { id:"M88", n:88, type:"runner",  date:"Jul 3",  note:"2nd vs 2nd" },
+  { id:"M73", n:73, type:"runner",  date:"Jun 28", venue:"Inglewood",       note:"A2 South Korea vs B2 Canada"              },
+  { id:"M74", n:74, type:"bracket", date:"Jun 29", venue:"Houston",         winnerGroup:"C", note:"C1 Brazil vs F2 Japan"   },
+  { id:"M75", n:75, type:"annex-c", date:"Jun 29", venue:"Foxborough",      winnerGroup:"E", pool:["A","B","C","D","F"]     }, // E1 Germany vs D3 Paraguay
+  { id:"M76", n:76, type:"bracket", date:"Jun 29", venue:"Monterrey",       winnerGroup:"F", note:"F1 Netherlands vs C2 Morocco" },
+  { id:"M77", n:77, type:"runner",  date:"Jun 30", venue:"Arlington",       note:"E2 Ivory Coast vs I2 Norway"              },
+  { id:"M78", n:78, type:"annex-c", date:"Jun 30", venue:"East Rutherford", winnerGroup:"I", pool:["C","D","F","G","H"]     }, // I1 France vs F3 Sweden
+  { id:"M79", n:79, type:"annex-c", date:"Jun 30", venue:"Mexico City",     winnerGroup:"A", pool:["C","E","F","H","I"]     }, // A1 Mexico vs C3 Scotland
+  { id:"M80", n:80, type:"annex-c", date:"Jul 1",  venue:"Atlanta",         winnerGroup:"L", pool:["E","H","I","J","K"]     }, // L1 England vs H3 Cabo Verde
+  { id:"M81", n:81, type:"annex-c", date:"Jul 1",  venue:"Seattle",         winnerGroup:"G", pool:["A","E","H","I","J"]     }, // G1 Egypt vs A3 Czechia
+  { id:"M82", n:82, type:"annex-c", date:"Jul 1",  venue:"Santa Clara",     winnerGroup:"D", pool:["B","E","F","I","J"]     }, // D1 USA vs B3 Bosnia
+  { id:"M83", n:83, type:"bracket", date:"Jul 2",  venue:"Inglewood",       winnerGroup:"H", note:"H1 Spain vs J2 Austria"  },
+  { id:"M84", n:84, type:"annex-c", date:"Jul 2",  venue:"Vancouver",       winnerGroup:"B", pool:["E","F","G","I","J"]     }, // B1 Switzerland vs G3 Belgium
+  { id:"M85", n:85, type:"runner",  date:"Jul 2",  venue:"Toronto",         note:"K2 Portugal vs L2 Ghana"                  },
+  { id:"M86", n:86, type:"runner",  date:"Jul 3",  venue:"Arlington",       note:"D2 Australia vs G2 Iran"                  },
+  { id:"M87", n:87, type:"bracket", date:"Jul 3",  venue:"Miami Gardens",   winnerGroup:"J", note:"J1 Argentina vs H2 Uruguay" },
+  { id:"M88", n:88, type:"annex-c", date:"Jul 3",  venue:"Kansas City",     winnerGroup:"K", pool:["D","E","I","J","L"]     }, // K1 Colombia vs L3 Croatia
 ];
 
-// Approximate runner-up bracket assignment (visualization only; exact pairings per FIFA draw)
-// M73=C1 vs G2, M75=F1 vs D2, M76=H1 vs I2, M78=J1 vs L2
-// M83=A2 vs B2, M84=C2 vs E2, M86=F2 vs H2, M88=J2 vs K2
+// Runner-up matchIdx — which R32 match each group's runner-up plays in
+// Confirmed from CBS Sports bracket (Jun 24 2026)
 export const RUNNERUP_MATCH_IDX = {
-  A:10, B:10, C:11, D:2, E:11, F:13, G:0, H:13, I:3, J:15, K:15, L:5,
+  A:0,  // South Korea (A2) → M73
+  B:0,  // Canada (B2) → M73
+  C:3,  // Morocco (C2) → M76
+  D:13, // Australia (D2) → M86
+  E:4,  // Ivory Coast (E2) → M77
+  F:1,  // Japan (F2) → M74
+  G:13, // Iran (G2) → M86
+  H:14, // Uruguay (H2) → M87
+  I:4,  // Norway (I2) → M77
+  J:10, // Austria (J2) → M83
+  K:12, // Portugal (K2) → M85
+  L:12, // Ghana (L2) → M85
 };
 
 // Polymarket / Kalshi composite win-probability (as of Jun 24, 2026)

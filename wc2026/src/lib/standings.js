@@ -52,16 +52,17 @@ export function computeThirds(standings) {
 }
 
 // Assign qualifying thirds to their Annex C match (simplified: first eligible pool)
+// matchIdx values confirmed from CBS Sports bracket (Jun 24 2026)
 export function assignThirdsToMatches(thirds) {
   const ANNEX_C = [
-    { winnerGroup:'E', pool:['A','B','C','D','F'], matchIdx:1  },
-    { winnerGroup:'I', pool:['C','D','F','G','H'], matchIdx:4  },
-    { winnerGroup:'A', pool:['C','E','F','H','I'], matchIdx:6  },
-    { winnerGroup:'L', pool:['E','H','I','J','K'], matchIdx:7  },
-    { winnerGroup:'D', pool:['B','E','F','I','J'], matchIdx:8  },
-    { winnerGroup:'G', pool:['A','E','H','I','J'], matchIdx:9  },
-    { winnerGroup:'B', pool:['E','F','G','I','J'], matchIdx:12 },
-    { winnerGroup:'K', pool:['D','E','I','J','L'], matchIdx:14 },
+    { winnerGroup:'A', pool:['C','E','F','H','I'], matchIdx:6  }, // M79 Jun 30 Mexico City
+    { winnerGroup:'E', pool:['A','B','C','D','F'], matchIdx:2  }, // M75 Jun 29 Foxborough
+    { winnerGroup:'I', pool:['C','D','F','G','H'], matchIdx:5  }, // M78 Jun 30 East Rutherford
+    { winnerGroup:'L', pool:['E','H','I','J','K'], matchIdx:7  }, // M80 Jul 1  Atlanta
+    { winnerGroup:'G', pool:['A','E','H','I','J'], matchIdx:8  }, // M81 Jul 1  Seattle
+    { winnerGroup:'D', pool:['B','E','F','I','J'], matchIdx:9  }, // M82 Jul 1  Santa Clara
+    { winnerGroup:'B', pool:['E','F','G','I','J'], matchIdx:11 }, // M84 Jul 2  Vancouver
+    { winnerGroup:'K', pool:['D','E','I','J','L'], matchIdx:15 }, // M88 Jul 3  Kansas City
   ];
   const used = new Set();
   const result = {};
