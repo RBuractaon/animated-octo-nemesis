@@ -16,6 +16,13 @@ const TABS = [
   { id:'markets', label:'Markets'    },
 ];
 
+// Tailscale network — devices seen in the network (update path once RADIANT airball endpoint is known)
+const TAILSCALE_HOSTS = [
+  { name:'rogtowerdb',   ip:'100.115.169.40', defaultPort:8080, path:'/wc2026.json', online:true  },
+  { name:'spark-574e',   ip:'100.127.73.22',  defaultPort:8080, path:'/wc2026.json', online:true  },
+  { name:'pixel-10-pro-xl', ip:'100.123.76.21', defaultPort:8080, path:'/wc2026.json', online:true },
+];
+
 export default function App() {
   const [tab, setTab]               = useState('thirds');
   const [standings, setStandings]   = useState(null);
@@ -160,35 +167,61 @@ export default function App() {
               background:'#0e0f17', border:`1px solid ${C.border}`, borderRadius:5,
               padding:'12px 14px', marginBottom:10,
             }}>
-              <p style={{ fontSize:10, color:C.muted, marginBottom:6 }}>
-                Custom data URL (RADIANT airball, Tailscale, local feed — openfootball JSON or custom standings JSON):
+              {/* Tailscale quick-connect */}
+              <p style={{ fontSize:9, letterSpacing:'0.12em', color:C.muted, textTransform:'uppercase', marginBottom:6 }}>
+                Tailscale devices
+              </p>
+              <div style={{ display:'flex', flexWrap:'wrap', gap:6, marginBottom:10 }}>
+                {TAILSCALE_HOSTS.map(h => (
+                  <button
+                    key={h.ip}
+                    onClick={() => setCustomUrl(`http://${h.ip}:${h.defaultPort}${h.path}`)}
+                    style={{
+                      background: customUrl.includes(h.ip) ? `${C.purple}22` : '#13141a',
+                      border: `1px solid ${customUrl.includes(h.ip) ? C.purple : C.border}`,
+                      borderRadius:4, padding:'5px 10px', cursor:'pointer', textAlign:'left',
+                    }}
+                  >
+                    <div style={{ display:'flex', alignItems:'center', gap:5 }}>
+                      <span style={{ width:6, height:6, borderRadius:'50%', background: h.online ? C.green : C.muted, display:'inline-block' }} />
+                      <span style={{ fontSize:11, color: C.text, fontWeight:600 }}>{h.name}</span>
+                    </div>
+                    <div style={{ fontSize:9, color:C.dim, fontFamily:'monospace', marginTop:2 }}>
+                      {h.ip}:{h.defaultPort}{h.path}
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {/* Manual URL input */}
+              <p style={{ fontSize:9, letterSpacing:'0.12em', color:C.muted, textTransform:'uppercase', marginBottom:5 }}>
+                Data URL
               </p>
               <div style={{ display:'flex', gap:6 }}>
                 <input
                   type="text"
                   value={customUrl}
                   onChange={e => setCustomUrl(e.target.value)}
-                  placeholder="http://100.x.x.x:8080/wc2026.json"
+                  placeholder="http://100.115.169.40:8080/wc2026.json"
                   style={{
                     flex:1, background:'#13141a', border:`1px solid ${C.border}`,
-                    borderRadius:3, padding:'5px 8px', fontSize:11, color:C.text,
+                    borderRadius:3, padding:'6px 8px', fontSize:11, color:C.text,
                     outline:'none', fontFamily:'monospace',
                   }}
                 />
                 <button onClick={() => { saveCustomUrl(customUrl); loadAll(); }} style={{
                   background: C.cyan, color:'#000', border:'none', borderRadius:3,
-                  padding:'5px 12px', fontSize:11, fontWeight:700, cursor:'pointer',
-                }}>Apply</button>
+                  padding:'6px 12px', fontSize:11, fontWeight:700, cursor:'pointer', whiteSpace:'nowrap',
+                }}>Connect</button>
                 {customUrl && (
                   <button onClick={() => { saveCustomUrl(''); loadAll(); }} style={{
                     background:'transparent', border:`1px solid ${C.border}`,
-                    color: C.muted, borderRadius:3, padding:'5px 9px', fontSize:11, cursor:'pointer',
-                  }}>Clear</button>
+                    color: C.muted, borderRadius:3, padding:'6px 9px', fontSize:11, cursor:'pointer',
+                  }}>×</button>
                 )}
               </div>
-              <p style={{ fontSize:9, color:'#2e2e38', marginTop:6 }}>
-                Custom JSON: either openfootball format {"{"}"matches":[...]{"}"} or{' '}
-                {"{"}"standings":{"{"}A:[...]{"}"}, "completed_matches":N, "as_of":"..."{"}"}
+              <p style={{ fontSize:9, color:'#2e2e38', marginTop:5 }}>
+                Accepts openfootball {"{"}"matches":[...]{"}"} or {"{"}"standings":{"{"}A:[...]{"}"}, "as_of":"..."{"}"}
               </p>
             </div>
           )}
