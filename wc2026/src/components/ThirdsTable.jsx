@@ -48,7 +48,7 @@ const th = (v, left) => (
   </th>
 );
 
-export default function ThirdsTable({ thirds, loading }) {
+export default function ThirdsTable({ thirds, groupProgress = {}, loading }) {
   if (loading) return null;
   if (!thirds || thirds.length === 0)
     return <p style={{ color: C.muted, fontSize: 12 }}>No 3rd-place data yet — waiting for matchday results.</p>;
@@ -97,7 +97,14 @@ export default function ThirdsTable({ thirds, loading }) {
                     {r.team}
                     {i === 7 && <span style={{ fontSize:9, color: C.gold, marginLeft:6 }}>◀ cutline</span>}
                   </td>
-                  {td(r.group, { color:'#a1a1aa' })}
+                  <td style={{ textAlign:'center', fontFamily:'monospace', color:'#a1a1aa', padding:'6px 5px', whiteSpace:'nowrap' }}>
+                    {r.group}
+                    {groupProgress[r.group] === 6
+                      ? <span style={{ color:C.green, fontSize:9, marginLeft:3 }}>✓</span>
+                      : groupProgress[r.group]
+                        ? <span style={{ color:C.muted, fontSize:9, marginLeft:3 }}>{groupProgress[r.group]}/6</span>
+                        : null}
+                  </td>
                   {td(r.mp)}{td(r.w)}{td(r.d)}{td(r.l)}{td(r.gf)}{td(r.ga)}
                   <GDCell v={r.gd} />
                   {td(r.pts, { fontWeight:700, color:'#f4f4f5' })}

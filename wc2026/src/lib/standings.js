@@ -52,17 +52,17 @@ export function computeThirds(standings) {
 }
 
 // Assign qualifying thirds to their Annex C match (simplified: first eligible pool)
-// matchIdx values confirmed from CBS Sports bracket (Jun 24 2026)
+// matchIdx values per openfootball/worldcup.json match numbering
 export function assignThirdsToMatches(thirds) {
   const ANNEX_C = [
+    { winnerGroup:'E', pool:['A','B','C','D','F'], matchIdx:1  }, // M74 Jun 29 Foxborough
+    { winnerGroup:'I', pool:['C','D','F','G','H'], matchIdx:4  }, // M77 Jun 30 East Rutherford
     { winnerGroup:'A', pool:['C','E','F','H','I'], matchIdx:6  }, // M79 Jun 30 Mexico City
-    { winnerGroup:'E', pool:['A','B','C','D','F'], matchIdx:2  }, // M75 Jun 29 Foxborough
-    { winnerGroup:'I', pool:['C','D','F','G','H'], matchIdx:5  }, // M78 Jun 30 East Rutherford
     { winnerGroup:'L', pool:['E','H','I','J','K'], matchIdx:7  }, // M80 Jul 1  Atlanta
-    { winnerGroup:'G', pool:['A','E','H','I','J'], matchIdx:8  }, // M81 Jul 1  Seattle
-    { winnerGroup:'D', pool:['B','E','F','I','J'], matchIdx:9  }, // M82 Jul 1  Santa Clara
-    { winnerGroup:'B', pool:['E','F','G','I','J'], matchIdx:11 }, // M84 Jul 2  Vancouver
-    { winnerGroup:'K', pool:['D','E','I','J','L'], matchIdx:15 }, // M88 Jul 3  Kansas City
+    { winnerGroup:'D', pool:['B','E','F','I','J'], matchIdx:8  }, // M81 Jul 1  Santa Clara
+    { winnerGroup:'G', pool:['A','E','H','I','J'], matchIdx:9  }, // M82 Jul 1  Seattle
+    { winnerGroup:'B', pool:['E','F','G','I','J'], matchIdx:12 }, // M85 Jul 2  Vancouver
+    { winnerGroup:'K', pool:['D','E','I','J','L'], matchIdx:14 }, // M87 Jul 3  Kansas City
   ];
   const used = new Set();
   const result = {};
@@ -76,4 +76,15 @@ export function assignThirdsToMatches(thirds) {
     }
   }
   return result;
+}
+
+// Count completed matches per group (each group has 6 total in a 4-team round-robin)
+// Returns { A: 4, B: 6, C: 4, ... }
+export function computeGroupProgress(standings) {
+  const progress = {};
+  for (const [g, rows] of Object.entries(standings)) {
+    const totalMp = rows.reduce((sum, r) => sum + r.mp, 0);
+    progress[g] = Math.round(totalMp / 2);
+  }
+  return progress;
 }

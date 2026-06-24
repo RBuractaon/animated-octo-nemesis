@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { C, OPENFOOTBALL_URL, MARKET_ODDS } from './data/constants.js';
-import { computeStandings, computeThirds } from './lib/standings.js';
+import { computeStandings, computeThirds, computeGroupProgress } from './lib/standings.js';
 import { fetchLiveOdds, mergeOdds } from './lib/markets.js';
 import ThirdsTable  from './components/ThirdsTable.jsx';
 import GroupViewer  from './components/GroupViewer.jsx';
@@ -35,6 +35,7 @@ export default function App() {
   const [marketSource, setMarketSource] = useState('hardcoded');
   const [lastUpdated, setLastUpdated]   = useState(null);
   const [selectedGroup, setSelectedGroup] = useState('G');
+  const [groupProgress, setGroupProgress] = useState({});
 
   // Custom URL support (for RADIANT airball / Tailscale)
   const [customUrl, setCustomUrl]       = useState('');
@@ -63,6 +64,7 @@ export default function App() {
       const t = computeThirds(s);
       setStandings(s);
       setThirds(t);
+      setGroupProgress(computeGroupProgress(s));
       const completed = json.matches.filter(m => m.score).length;
       setDataSource(`openfootball/worldcup.json · ${completed} matches completed`);
     } else {
@@ -266,7 +268,7 @@ export default function App() {
           </div>
         )}
 
-        {!loading && tab === 'thirds'  && <ThirdsTable  thirds={thirds} loading={false} />}
+        {!loading && tab === 'thirds'  && <ThirdsTable  thirds={thirds} groupProgress={groupProgress} loading={false} />}
         {!loading && tab === 'groups'  && (
           <GroupViewer
             standings={standings} thirds={thirds}
@@ -274,7 +276,7 @@ export default function App() {
             loading={false}
           />
         )}
-        {!loading && tab === 'bracket' && <BracketView  standings={standings} thirds={thirds} loading={false} />}
+        {!loading && tab === 'bracket' && <BracketView  standings={standings} thirds={thirds} groupProgress={groupProgress} loading={false} />}
         {!loading && tab === 'sankey'  && (
           <SankeyDiagram standings={standings} thirds={thirds} marketOdds={marketOdds} />
         )}

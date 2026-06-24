@@ -21,7 +21,7 @@ function Pill({ children, color = 'gray' }) {
 // Sort WINNER_SLOTS by match date order for display
 const ANNEX_C_ORDER = ['E','I','A','L','D','G','B','K'];
 
-export default function BracketView({ standings, thirds, loading }) {
+export default function BracketView({ standings, thirds, groupProgress = {}, loading }) {
   if (loading) return null;
   if (!standings || !thirds) return null;
 
@@ -55,6 +55,9 @@ export default function BracketView({ standings, thirds, loading }) {
           const slot = WINNER_SLOTS[grp];
           const winner = standings[grp]?.[0];
           const assignedThird = matchToThird[slot.matchIdx];
+          const winnerDone   = (groupProgress[grp]  || 0) >= 6;
+          const thirdDone    = assignedThird && (groupProgress[assignedThird.group] || 0) >= 6;
+          const isFinal      = winnerDone && thirdDone;
 
           // Pool candidates not yet claimed by another match
           const poolCandidates = thirds.filter(t =>
@@ -74,19 +77,28 @@ export default function BracketView({ standings, thirds, loading }) {
                 </span>
                 <Pill color="cyan">Grp {grp}</Pill>
                 <span style={{ fontSize:10, color:C.muted }}>
-                  Match {slot.match} · {slot.date} · {slot.venue}
+                  M{slot.match} · {slot.date} · {slot.venue}
                 </span>
+                {isFinal
+                  ? <Pill color="green">FINAL</Pill>
+                  : <span style={{ fontSize:9, color:'#4a4a58' }}>
+                      {winnerDone ? '' : `Grp ${grp} ${groupProgress[grp]||0}/6`}
+                      {winnerDone && assignedThird && !thirdDone ? `Grp ${assignedThird.group} ${groupProgress[assignedThird.group]||0}/6` : ''}
+                      {!winnerDone || !assignedThird ? ' projected' : ' projected'}
+                    </span>
+                }
               </div>
 
               {/* Opponent row */}
               {assignedThird ? (
                 <div style={{ display:'flex', alignItems:'baseline', gap:8, flexWrap:'wrap' }}>
                   <span style={{ fontSize:11, color:C.muted }}>vs</span>
-                  <span style={{ fontSize:13, fontWeight:600, color:C.gold }}>
+                  <span style={{ fontSize:13, fontWeight:600, color: isFinal ? C.gold : C.dim }}>
                     {assignedThird.team}
                   </span>
                   <span style={{ fontSize:10, color:C.muted }}>
-                    Grp {assignedThird.group} · {assignedThird.pts}pts · #{assignedThird.rank} of 12 thirds
+                    Grp {assignedThird.group} · {assignedThird.pts}pts · #{assignedThird.rank}/12
+                    {!thirdDone && assignedThird && ` · ${groupProgress[assignedThird.group]||0}/6 played`}
                   </span>
                 </div>
               ) : poolCandidates.length > 0 ? (
@@ -98,7 +110,7 @@ export default function BracketView({ standings, thirds, loading }) {
                     {poolCandidates.map((t, i) => (
                       <span key={t.team} style={{ fontSize:11 }}>
                         <span style={{ color: i === 0 ? C.gold : C.dim }}>{t.team}</span>
-                        <span style={{ color:C.muted }}> Grp{t.group} {t.pts}pts</span>
+                        <span style={{ color:C.muted }}> Grp{t.group} {t.pts}pts {(groupProgress[t.group]||0) >= 6 ? '✓' : `${groupProgress[t.group]||0}/6`}</span>
                       </span>
                     ))}
                   </div>
